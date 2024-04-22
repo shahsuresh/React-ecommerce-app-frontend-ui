@@ -27,6 +27,14 @@ const Login = () => {
     onSuccess: (res) => {
       console.log(res);
       navigate("/home");
+      // extract token, role and first name from login response
+      const accessToken = res?.data?.accessToken;
+      const firstName = res?.data?.UserDetails?.firstName;
+      const role = res?.data?.UserDetails?.role;
+      // set these values to local storage|
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("firstName", firstName);
+      localStorage.setItem("role", role);
     },
     onError: (error) => {
       console.log(error.response.data.message);
