@@ -1,4 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
+import { Tooltip } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -13,7 +14,25 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+
+const greetByTime = () => {
+  const timeNow = new Date().getHours();
+
+  let greeting;
+  if (timeNow < 12) {
+    greeting = "Good Morning";
+  } else if (timeNow >= 12 && timeNow < 17) {
+    greeting = "Good Afternoon";
+  } else if (timeNow >= 17 && timeNow < 20) {
+    greeting = "Good Evening";
+  } else {
+    greeting = "Good Evening";
+  }
+
+  return greeting;
+};
 
 const drawerWidth = 240;
 const navItems = [
@@ -91,6 +110,31 @@ const Header = (props) => {
               </Button>
             ))}
           </Box>
+          <Typography
+            sx={{
+              margin: "0 1rem",
+              fontWeight: "bold",
+              fontFamily: "cursive",
+            }}
+          >
+            Hi,{" "}
+            {localStorage.getItem("firstName").toUpperCase() +
+              " " +
+              greetByTime()}
+          </Typography>
+          <Tooltip title="Logout">
+            <IconButton
+              sx={{ color: "#fff" }}
+              onClick={() => {
+                navigate("/login");
+
+                //?=== clear local storage when user click logout button=========
+                localStorage.clear();
+              }}
+            >
+              <LogoutIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
       <nav>

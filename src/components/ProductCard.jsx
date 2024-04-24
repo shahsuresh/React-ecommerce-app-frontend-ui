@@ -7,32 +7,33 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Chip, Stack } from "@mui/material";
 
-const ProductCard = () => {
+const ProductCard = (props) => {
   return (
     <Card
-      sx={{ maxWidth: "30%", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
+      sx={{
+        width: "400px",
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        marginTop: "1rem",
+      }}
     >
       <CardMedia
-        sx={{ height: 300 }}
+        sx={{ height: 250, width: "90%", objectFit: "cover" }}
         image="https://www.sceptre.com/image/cache/data/product_gallery/1423-X437BV-FSRD/1-750x522.jpg"
         title="Samsung"
       />
       <CardContent>
         <Stack direction="row" justifyContent="space-between">
           <Typography gutterBottom variant="h5" component="div">
-            Smart TV
+            {props.name}
           </Typography>
 
-          <Chip label="Samsung" color="secondary" variant="outlined" />
+          <Chip label={props.brand} color="secondary" variant="outlined" />
         </Stack>
 
-        <Typography>Price:$5500</Typography>
+        <Typography>Rs.{props.price}</Typography>
 
         <Typography variant="body2" color="text.secondary">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde
-          architecto eius eligendi cum explicabo sunt repellendus ab cumque
-          voluptatem, labore deleniti, ad laboriosam nihil? Neque error enim
-          labore atque modi...
+          {props.description}...
         </Typography>
       </CardContent>
       <CardActions>
