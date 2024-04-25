@@ -117,9 +117,9 @@ const Header = (props) => {
               fontFamily: "cursive",
             }}
           >
-            Hi,{" "}
+            Hi,
             {localStorage.getItem("firstName").toUpperCase() +
-              " " +
+              ", " +
               greetByTime()}
           </Typography>
           <Tooltip title="Logout">
