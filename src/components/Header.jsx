@@ -1,5 +1,4 @@
-import MenuIcon from "@mui/icons-material/Menu";
-import { Tooltip } from "@mui/material";
+import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -11,12 +10,15 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import LogoutIcon from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
-import LogoutIcon from "@mui/icons-material/Logout";
+import { Badge, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
+//?======greeting message function============================
 const greetByTime = () => {
   const timeNow = new Date().getHours();
 
@@ -33,7 +35,7 @@ const greetByTime = () => {
 
   return greeting;
 };
-
+//?======================================================
 const drawerWidth = 240;
 const navItems = [
   { id: 1, name: "Home", path: "/home" },
@@ -42,6 +44,9 @@ const navItems = [
 ];
 
 const Header = (props) => {
+  //?=====get user role ======
+  const userRole = localStorage.getItem("role");
+
   const navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -93,7 +98,10 @@ const Header = (props) => {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+            }}
           >
             Nepal E-Mart
           </Typography>
@@ -109,6 +117,18 @@ const Header = (props) => {
                 {item.name}
               </Button>
             ))}
+             {userRole === "buyer" && (
+              <IconButton
+                sx={{ color: "#fff" }}
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                <Badge badgeContent={2} color="success">
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
+              </IconButton>
+            )}
           </Box>
           <Typography
             sx={{
@@ -128,7 +148,7 @@ const Header = (props) => {
               onClick={() => {
                 navigate("/login");
 
-                //?=== clear local storage when user click logout button=========
+      //?======= clear local storage when user click logout button=========
                 localStorage.clear();
               }}
             >
