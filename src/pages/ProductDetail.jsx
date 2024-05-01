@@ -126,7 +126,7 @@ const ProductDetail = () => {
           <Typography variant="h6">Free shipping</Typography>
           <Chip
             variant="outlined"
-            color="success"
+            color= {productDetail.freeShipping?"success":"error"}
             label={productDetail.freeShipping ? "Yes" : "No"}
             sx={{ fontSize: "1rem" }}
           />
