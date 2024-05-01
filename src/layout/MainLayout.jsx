@@ -15,6 +15,7 @@ const MainLayout = () => {
           alignItems: "center",
           flexDirection: "column",
           margin: "3rem 0",
+          
         }}
       >
         <Outlet />

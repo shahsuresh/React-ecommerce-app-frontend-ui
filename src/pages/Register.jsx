@@ -51,7 +51,7 @@ const Register = () => {
   return (
     <>
       {isPending && <LinearProgress color="secondary" />}
-      <Box>
+      <Box sx={{margin:"8% 36%"}}>
         <Formik
           initialValues={{
             firstName: "",

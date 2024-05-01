@@ -10,8 +10,15 @@ const Footer = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "99vw",
+        position: "fixed",
+        left: 0,
+        bottom: 0,
+        
+        width: "100%",
+        
       }}
+        
+        
     >
       <Typography variant="h5" sx={{ color: "#fff" }}>
         © 2020 Copyright: Nepal Electronic Mart

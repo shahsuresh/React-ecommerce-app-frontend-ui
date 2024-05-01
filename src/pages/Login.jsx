@@ -43,8 +43,8 @@ const Login = () => {
 
   return (
     <>
-      {isPending && <LinearProgress color="secondary" />}
-      <Box>
+      
+      <Box sx={{margin:"15% 36%"}}>
         <Formik
           initialValues={{
             email: "",
@@ -69,6 +69,8 @@ const Login = () => {
                   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                 }}
               >
+      {isPending && <LinearProgress color="secondary" />}
+
                 <Typography variant="h4">Sign in</Typography>
                 <FormControl>
                   <TextField label="Email" {...formik.getFieldProps("email")} />

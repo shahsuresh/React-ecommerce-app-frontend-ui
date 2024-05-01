@@ -3,6 +3,7 @@ import React from "react";
 import ProductCard from "./ProductCard";
 import { useQuery } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
+import Loader from "./Loader";
 
 const BuyerProductList = () => {
   const { isPending, data } = useQuery({
@@ -14,7 +15,8 @@ const BuyerProductList = () => {
   console.log(data);
   const productList = data?.data?.productList;
   if (isPending) {
-    return <CircularProgress />;
+    // return <CircularProgress />;
+    return <Loader/>
   }
   return (
     <Box

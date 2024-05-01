@@ -17,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import { Badge, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useQuery } from "@tanstack/react-query";
+import $axios from "../lib/axios/axios.instance";
 
 //?======greeting message function============================
 const greetByTime = () => {
@@ -46,6 +48,17 @@ const navItems = [
 const Header = (props) => {
   //?=====get user role ======
   const userRole = localStorage.getItem("role");
+
+  //?==== get cart item count api hit ============
+  const { isPending, data } = useQuery({
+    queryKey: ["get-cart-item-count"],
+    queryFn: async () => {
+      return await $axios.get("/cart/item/count");
+    },
+    enabled: userRole === "buyer",
+  });
+
+  const cartItemCount = data?.data?.cartItemCount;
 
   const navigate = useNavigate();
   const { window } = props;
@@ -84,7 +97,7 @@ const Header = (props) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ backgroundColor: "red" }}>
+      <AppBar component="nav" sx={{ backgroundColor: "red"}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -124,7 +137,7 @@ const Header = (props) => {
                   navigate("/cart");
                 }}
               >
-                <Badge badgeContent={2} color="success">
+                <Badge badgeContent={cartItemCount} color="success">
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>

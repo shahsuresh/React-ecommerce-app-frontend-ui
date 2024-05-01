@@ -11,11 +11,12 @@ import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import { fallbackImage } from "../constants/general.constants";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
 import DeleteProductDialog from "../components/DeleteProductDialog";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import Loader from "../components/Loader";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -23,6 +24,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const productId = params?.id;
+  const queryClient = useQueryClient();
 
    
 
@@ -54,12 +56,13 @@ const ProductDetail = () => {
        });
      },
      onSuccess: () => {
+      queryClient.invalidateQueries("get-cart-item-count");
        navigate("/cart");
      },
    });
  
    if (isPending || addItemToCartPending) {
-     return <CircularProgress />;
+     return <Loader/>;
    }
 
   return (
@@ -70,6 +73,7 @@ const ProductDetail = () => {
         padding: "3rem",
         mt: "5rem",
         width: "70%",
+        borderRadius:"10px"
       }}
     >
       <Box

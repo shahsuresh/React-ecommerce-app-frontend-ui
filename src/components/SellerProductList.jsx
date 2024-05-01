@@ -4,6 +4,8 @@ import $axios from "../lib/axios/axios.instance";
 import { Box, Button, CircularProgress } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
+import SellProductPrompt from "./SellProductPrompt";
 
 const SellerProductList = () => {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const SellerProductList = () => {
   const productList = data?.data?.productList;
 
   if (isPending) {
-    return <CircularProgress />;
+    return <Loader/>;
   }
   return (
     <>
@@ -31,10 +33,12 @@ const SellerProductList = () => {
         onClick={() => {
           navigate("/add-product");
         }}
-        sx={{ marginBottom: "2rem" }}
+        sx={{ marginBottom: "2rem",marginTop:"2rem" }}
       >
         add product
+
       </Button>
+      {productList.length === 0 && <SellProductPrompt />}
       <Box
         sx={{
           display: "flex",

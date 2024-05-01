@@ -15,24 +15,24 @@ const ProductCard = (props) => {
     <Card
       sx={{
         width: "400px",
+       
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         marginTop: "2rem",
-        borderRadius:"10px"
+        borderRadius:"10px",
+        marginBottom:"2rem",
       }}
     >
       <CardMedia
         sx={{
-          height: 220,
+          height: "20%",
           width: "100%",
-          marginTop:"1px",
           cursor: "pointer",
-          objectPosition:"center",
-          objectFit:"scale-down"
+          padding: "0 0 0.5em 0",
+          objectFit:"contain",
           
-
         }}
         
-        className=".MuiCardMedia-media"
+        component="img"
         image={props?.image || fallbackImage}
         title= {props.name}
         onClick={() => {

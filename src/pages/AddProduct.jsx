@@ -39,7 +39,7 @@ const AddProduct = () => {
 
   return (
     <>
-      <Box>
+      <Box sx={{marginTop:"2rem"}}> 
         <Formik
           initialValues={{
             image: null,
