@@ -17,16 +17,15 @@ const Cart = () => {
   });
 
   const cartData = data?.data?.cartData;
+  const orderSummary = data?.data?.orderSummary;
 
   if (isPending) {
     return <CircularProgress />;
   }
 
   return (
-    <Box sx={{marginTop:"2rem"}}>
-      <Typography variant="h3" sx={{ marginBottom: "2rem" }}>
-        Shopping cart
-      </Typography>
+    <Box sx={{marginTop:"2.2rem"}}>
+      
       {cartData?.length === 0 ? (
         <KeepShopping/>
       ) : (
@@ -36,11 +35,11 @@ const Cart = () => {
             justifyContent: "space-between",
             alignItems: "center",
 
-            width: "90%",
+            width: "100%",
           }}
         >
           <CartItemTable cartData={cartData} />
-          <OrderSummary/>
+          <OrderSummary orderSummary={orderSummary}/>
         </Box>
       )}
     </Box>
