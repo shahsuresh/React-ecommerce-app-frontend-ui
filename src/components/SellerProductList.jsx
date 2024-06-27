@@ -16,7 +16,7 @@ const SellerProductList = () => {
     queryFn: async () => {
       return await $axios.post("/product/list/seller", {
         page: currentPage,
-        limit: 4,
+        limit: 3,
       });
     },
   });
