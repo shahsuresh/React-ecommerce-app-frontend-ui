@@ -14,11 +14,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
 import $axios from "../lib/axios/axios.instance";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const CartItemTable = ({ cartData }) => {
   const queryClient = useQueryClient();
@@ -71,8 +73,10 @@ const CartItemTable = ({ cartData }) => {
     <TableContainer
       component={Paper}
       sx={{
-        width: "85%",
-        borderRadius:"10px",
+        width:"80%",
+        marginRight:"30px",
+      
+        borderRadius:"5px",
         boxShadow:
           "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
       }}
@@ -80,7 +84,7 @@ const CartItemTable = ({ cartData }) => {
       {(removeSingleItemFromCartPending ||
         clearCartPending ||
         updateQuantityPending) && <LinearProgress color="success" />}
-      <Button
+      {/* <Button
         variant="contained"
         color="error"
         sx={{ width:"30%",float: "right" }}
@@ -89,7 +93,32 @@ const CartItemTable = ({ cartData }) => {
         }}
       >
         clear cart
-      </Button>
+      </Button> */}
+      {/* --------- */}
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <ShoppingCartOutlinedIcon sx={{ fontSize: "2rem", color: "green" }} />
+          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            Shopping Cart
+          </Typography>
+        </Stack>
+        <Button
+          variant="contained"
+          color="error"
+          sx={{ textAlign: "right" }}
+          onClick={() => {
+            clearCart();
+          }}
+        >
+          clear cart
+        </Button>
+      </Toolbar>
+      {/* --------- */}
       <Table sx={{}} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -181,8 +210,7 @@ const CartItemTable = ({ cartData }) => {
                 </Stack>
               </TableCell>
               <TableCell align="center">
-                {" "}
-                <Typography variant="body1">{200}</Typography>
+                <Typography variant="body1">{item?.subTotal}</Typography>
               </TableCell>
               <TableCell align="left">
                 <IconButton
