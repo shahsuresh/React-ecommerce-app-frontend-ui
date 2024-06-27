@@ -34,7 +34,7 @@ const ProductCard = (props) => {
         
         component="img"
         image={props?.image || fallbackImage}
-        title= {props.name}
+        title= {props.brand +" "+ props.name}
         onClick={() => {
           navigate(`/product-detail/${props._id}`);
         }}
@@ -48,9 +48,9 @@ const ProductCard = (props) => {
           <Chip label={props.brand} color="secondary" variant="outlined" />
         </Stack>
 
-        <Typography>Rs.{props.price}</Typography>
+        <Typography variant="h6">Rs.{props.price}</Typography>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{height:"50px",textAlign:"justify"}}>
           {props.description}...
         </Typography>
       </CardContent>
