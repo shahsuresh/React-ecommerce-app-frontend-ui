@@ -10,7 +10,7 @@ const BuyerProductList = () => {
   const { isPending, data } = useQuery({
     queryKey: ["get-buyer-products",currentPage],
     queryFn: async () => {
-      return await $axios.post("/product/list/buyer", { page: currentPage, limit: 4 });
+      return await $axios.post("/product/list/buyer", { page: currentPage, limit: 3 });
     },
   });
   console.log(data);
