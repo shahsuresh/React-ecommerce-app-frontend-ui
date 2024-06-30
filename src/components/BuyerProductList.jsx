@@ -1,10 +1,11 @@
-import { Box, CircularProgress, FormControl, InputAdornment, OutlinedInput, Pagination, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, FormControl, InputAdornment, OutlinedInput, Pagination, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import { useQuery } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
 import Loader from "./Loader";
 import SearchIcon from '@mui/icons-material/Search';
+import ProductFilterDialog from "./ProductFilterDialog";
 
 const BuyerProductList = () => {
   const [searchText, setSearchText] = useState('');
@@ -24,7 +25,9 @@ const BuyerProductList = () => {
   }
   return (
     <>
-<FormControl variant="standard" sx={{marginTop:"1.2rem"}}>
+    <Stack direction="row" spacing="3" sx={{marginTop:"1.2rem"}}>
+      <ProductFilterDialog/>
+      <FormControl variant="standard">
           <OutlinedInput
             defaultValue={searchText || ''}
             onChange={(event) => {
@@ -39,6 +42,8 @@ const BuyerProductList = () => {
             }
           />
         </FormControl>
+    </Stack>
+
     <Box
       sx={{
         display: "flex",
