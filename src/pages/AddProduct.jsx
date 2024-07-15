@@ -21,8 +21,14 @@ import { useNavigate } from "react-router-dom";
 import { productCategories } from "../constants/general.constants";
 import $axios from "../lib/axios/axios.instance";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { isPending, mutate } = useMutation({
@@ -30,8 +36,12 @@ const AddProduct = () => {
     mutationFn: async (values) => {
       return await $axios.post("/product/add", values);
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
+      dispatch(openSuccessSnackbar(res?.data?.message));
       navigate("/products");
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
 
@@ -41,7 +51,7 @@ const AddProduct = () => {
 
   return (
     <>
-      <Box sx={{marginTop:"2rem"}}> 
+      <Box sx={{ marginTop: "2rem" }}>
         <Formik
           initialValues={{
             image: null,
@@ -72,11 +82,11 @@ const AddProduct = () => {
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
               }}
             >
-              <Typography variant="h5">Add Product</Typography>
+              <Typography variant='h5'>Add Product</Typography>
 
               <FormControl fullWidth>
                 <TextField
-                  label="Name"
+                  label='Name'
                   {...formik.getFieldProps("name")}
                   required
                 />
@@ -87,7 +97,7 @@ const AddProduct = () => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  label="Brand"
+                  label='Brand'
                   {...formik.getFieldProps("brand")}
                   required
                 />
@@ -112,17 +122,17 @@ const AddProduct = () => {
                 <InputLabel>Price</InputLabel>
                 <OutlinedInput
                   startAdornment={
-                    <InputAdornment position="start">Rs.</InputAdornment>
+                    <InputAdornment position='start'>Rs.</InputAdornment>
                   }
-                  label="Price"
+                  label='Price'
                   {...formik.getFieldProps("price")}
                 />
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  label="Quantity"
+                  label='Quantity'
                   {...formik.getFieldProps("availableQuantity")}
-                  type="number"
+                  type='number'
                   required
                 />
 
@@ -138,12 +148,12 @@ const AddProduct = () => {
                   control={
                     <Checkbox {...formik.getFieldProps("freeShipping")} />
                   }
-                  label="Free Shipping"
+                  label='Free Shipping'
                 />
               </FormControl>
               <FormControl fullWidth required>
                 <InputLabel>Category</InputLabel>
-                <Select label="Category" {...formik.getFieldProps("category")}>
+                <Select label='Category' {...formik.getFieldProps("category")}>
                   {productCategories.map((item, index) => {
                     return (
                       <MenuItem key={index} value={item}>
@@ -164,7 +174,7 @@ const AddProduct = () => {
                   required
                   multiline
                   rows={4}
-                  label="Description"
+                  label='Description'
                   {...formik.getFieldProps("description")}
                 />
                 {formik.touched.description && formik.errors.description ? (
@@ -175,9 +185,9 @@ const AddProduct = () => {
               </FormControl>
               <Button
                 fullWidth
-                type="submit"
-                variant="contained"
-                color="success"
+                type='submit'
+                variant='contained'
+                color='success'
               >
                 Submit
               </Button>

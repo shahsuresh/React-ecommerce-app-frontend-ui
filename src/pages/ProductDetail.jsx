@@ -17,6 +17,11 @@ import DeleteProductDialog from "../components/DeleteProductDialog";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Loader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -25,12 +30,10 @@ const ProductDetail = () => {
   const params = useParams();
   const productId = params?.id;
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
-   
-
-   //?=========== get user role ==================
-   const userRole = localStorage.getItem("role");
-   
+  //?=========== get user role ==================
+  const userRole = localStorage.getItem("role");
 
   //?====== fetch product details ================
 
@@ -43,27 +46,31 @@ const ProductDetail = () => {
 
   const productDetail = data?.data?.productDetails;
 
-   //?======= ordered quantity tracking==========
-   const [productCount, setProductCount] = useState(1);
+  //?======= ordered quantity tracking==========
+  const [productCount, setProductCount] = useState(1);
 
-   //?========= add to cart api hit===========
-   const { isPending: addItemToCartPending, mutate } = useMutation({
-     mutationKey: ["add-item-to-cart"],
-     mutationFn: async () => {
-       return await $axios.post(`/cart/item/add`, {
-         productId: productId,
-         orderedQuantity: productCount,
-       });
-     },
-     onSuccess: () => {
+  //?========= add to cart api hit===========
+  const { isPending: addItemToCartPending, mutate } = useMutation({
+    mutationKey: ["add-item-to-cart"],
+    mutationFn: async () => {
+      return await $axios.post(`/cart/item/add`, {
+        productId: productId,
+        orderedQuantity: productCount,
+      });
+    },
+    onSuccess: (res) => {
       queryClient.invalidateQueries("get-cart-item-count");
-       navigate("/cart");
-     },
-   });
- 
-   if (isPending || addItemToCartPending) {
-     return <Loader/>;
-   }
+      navigate("/cart");
+      dispatch(openSuccessSnackbar(res?.data?.message));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error.response.data.message));
+    },
+  });
+
+  if (isPending || addItemToCartPending) {
+    return <Loader />;
+  }
 
   return (
     <Box
@@ -73,7 +80,7 @@ const ProductDetail = () => {
         padding: "3rem",
         mt: "5rem",
         width: "70%",
-        borderRadius:"10px"
+        borderRadius: "10px",
       }}
     >
       <Box
@@ -86,7 +93,7 @@ const ProductDetail = () => {
       >
         <img
           src={productDetail?.image || fallbackImage}
-          alt=""
+          alt=''
           style={{ width: "90%" }}
         />
       </Box>
@@ -99,44 +106,44 @@ const ProductDetail = () => {
           gap: "2rem",
         }}
       >
-        <Typography variant="h5">{productDetail.name}</Typography>
+        <Typography variant='h5'>{productDetail.name}</Typography>
         <Chip
           label={productDetail.brand}
-          variant="outlined"
-          color="success"
+          variant='outlined'
+          color='success'
           sx={{ fontSize: "1rem" }}
         />
         <Typography sx={{ textAlign: "justify" }}>
           {productDetail.description}
         </Typography>
-        <Typography variant="h6">Price: Rs.{productDetail.price}</Typography>
+        <Typography variant='h6'>Price: Rs.{productDetail.price}</Typography>
 
         <Chip
-          variant="outlined"
-          color="success"
+          variant='outlined'
+          color='success'
           label={productDetail.category}
           sx={{ fontSize: "1rem", textTransform: "capitalize" }}
         />
 
-        <Typography variant="h6">
+        <Typography variant='h6'>
           Available quantity: {productDetail.availableQuantity}
         </Typography>
 
-        <Stack direction="row" spacing={4}>
-          <Typography variant="h6">Free shipping</Typography>
+        <Stack direction='row' spacing={4}>
+          <Typography variant='h6'>Free shipping</Typography>
           <Chip
-            variant="outlined"
-            color= {productDetail.freeShipping?"success":"error"}
+            variant='outlined'
+            color={productDetail.freeShipping ? "success" : "error"}
             label={productDetail.freeShipping ? "Yes" : "No"}
             sx={{ fontSize: "1rem" }}
           />
         </Stack>
-{/* //?=============if user is seller, He get EDIT & DELETE Product Button===============  */}
+        {/* //?=============if user is seller, He get EDIT & DELETE Product Button===============  */}
         {userRole === "seller" && (
-          <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+          <Stack direction='row' spacing={2} sx={{ width: "100%" }}>
             <Button
-              variant="contained"
-              color="success"
+              variant='contained'
+              color='success'
               startIcon={<EditIcon />}
               fullWidth
               onClick={() => {
@@ -150,11 +157,11 @@ const ProductDetail = () => {
           </Stack>
         )}
 
-{/* //?=============if user is buyer, He get  ADD_To_CART Button only===============  */}
+        {/* //?=============if user is buyer, He get  ADD_To_CART Button only===============  */}
 
         {userRole === "buyer" && (
           <>
-            <Stack direction="row" spacing={3}>
+            <Stack direction='row' spacing={3}>
               <IconButton
                 onClick={() => {
                   setProductCount((prevCount) => prevCount - 1);
@@ -163,7 +170,7 @@ const ProductDetail = () => {
               >
                 <RemoveIcon />
               </IconButton>
-              <Typography variant="h4">{productCount}</Typography>
+              <Typography variant='h4'>{productCount}</Typography>
               <IconButton
                 onClick={() => {
                   setProductCount((prevCount) => prevCount + 1);
@@ -175,8 +182,8 @@ const ProductDetail = () => {
             </Stack>
 
             <Button
-              variant="contained"
-              color="success"
+              variant='contained'
+              color='success'
               onClick={() => {
                 mutate();
               }}

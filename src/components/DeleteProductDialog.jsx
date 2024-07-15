@@ -10,8 +10,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
 import { CircularProgress } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { openErrorSnackbar } from "../store/slices/snackbarSlice";
 
 const DeleteProductDialog = () => {
+  const dispatch = useDispatch();
   const params = useParams();
 
   const productId = params?.id;
@@ -34,7 +37,9 @@ const DeleteProductDialog = () => {
     mutationFn: async () => {
       return await $axios.delete(`/product/delete/${productId}`);
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
+      // console.log(res.data.message);
+      dispatch(openErrorSnackbar(res?.data?.message));
       navigate("/products");
     },
   });
@@ -46,8 +51,8 @@ const DeleteProductDialog = () => {
   return (
     <React.Fragment>
       <Button
-        variant="outlined"
-        color="error"
+        variant='outlined'
+        color='error'
         startIcon={<DeleteIcon />}
         fullWidth
         onClick={handleClickOpen}
@@ -57,30 +62,30 @@ const DeleteProductDialog = () => {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle id='alert-dialog-title'>
           {`Are you sure you want to delete this product?`}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id='alert-dialog-description'>
             This process is irreversible. Product is permanently deleted after
             this action.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose} color="success">
+          <Button variant='contained' onClick={handleClose} color='success'>
             No
           </Button>
           <Button
-            variant="contained"
+            variant='contained'
             onClick={() => {
               mutate();
               handleClose();
             }}
             autoFocus
-            color="error"
+            color='error'
           >
             Yes
           </Button>

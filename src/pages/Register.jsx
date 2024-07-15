@@ -21,8 +21,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -41,17 +47,19 @@ const Register = () => {
       return await $axios.post("/user/register", values);
     },
     onSuccess: (res) => {
+      dispatch(openSuccessSnackbar(res?.data?.message));
       navigate("/login");
     },
     onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
       console.log(error.response.data.message);
     },
   });
 
   return (
     <>
-      {isPending && <LinearProgress color="secondary" />}
-      <Box sx={{margin:"8% 36%"}}>
+      {isPending && <LinearProgress color='secondary' />}
+      <Box sx={{ margin: "8% 36%" }}>
         <Formik
           initialValues={{
             firstName: "",
@@ -79,11 +87,11 @@ const Register = () => {
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
               }}
             >
-              <Typography variant="h4">Sign up</Typography>
+              <Typography variant='h4'>Sign up</Typography>
 
               <FormControl>
                 <TextField
-                  label="First name"
+                  label='First name'
                   {...getFieldProps("firstName")}
                   required
                 />
@@ -94,7 +102,7 @@ const Register = () => {
 
               <FormControl>
                 <TextField
-                  label="Last name"
+                  label='Last name'
                   {...getFieldProps("lastName")}
                   required
                 />
@@ -104,31 +112,31 @@ const Register = () => {
               </FormControl>
 
               <FormControl>
-                <TextField label="Email" {...getFieldProps("email")} required />
+                <TextField label='Email' {...getFieldProps("email")} required />
                 {touched.email && errors.email ? (
                   <FormHelperText error>{errors.email}</FormHelperText>
                 ) : null}
               </FormControl>
 
-              <FormControl variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
+              <FormControl variant='outlined'>
+                <InputLabel htmlFor='outlined-adornment-password'>
                   Password
                 </InputLabel>
                 <OutlinedInput
                   {...getFieldProps("password")}
                   type={showPassword ? "text" : "password"}
                   endAdornment={
-                    <InputAdornment position="end">
+                    <InputAdornment position='end'>
                       <IconButton
                         onClick={handleClickShowPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge="end"
+                        edge='end'
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="Password"
+                  label='Password'
                 />
 
                 {touched.password && errors.password ? (
@@ -138,9 +146,9 @@ const Register = () => {
 
               <FormControl fullWidth required>
                 <InputLabel>Role</InputLabel>
-                <Select label="Role" {...getFieldProps("role")}>
-                  <MenuItem value="buyer">Buyer</MenuItem>
-                  <MenuItem value="seller">Seller</MenuItem>
+                <Select label='Role' {...getFieldProps("role")}>
+                  <MenuItem value='buyer'>Buyer</MenuItem>
+                  <MenuItem value='seller'>Seller</MenuItem>
                 </Select>
 
                 {touched.role && errors.role ? (
@@ -150,10 +158,10 @@ const Register = () => {
 
               <FormControl fullWidth>
                 <InputLabel>Gender</InputLabel>
-                <Select label="Gender" {...getFieldProps("gender")}>
-                  <MenuItem value="male">Male</MenuItem>
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="preferNotToSay">Prefer not to say</MenuItem>
+                <Select label='Gender' {...getFieldProps("gender")}>
+                  <MenuItem value='male'>Male</MenuItem>
+                  <MenuItem value='female'>Female</MenuItem>
+                  <MenuItem value='preferNotToSay'>Prefer not to say</MenuItem>
                 </Select>
 
                 {touched.gender && errors.gender ? (
@@ -162,15 +170,15 @@ const Register = () => {
               </FormControl>
 
               <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
+                variant='contained'
+                color='secondary'
+                type='submit'
                 sx={{ mt: "1rem" }}
               >
                 Register
               </Button>
 
-              <Link to="/login">Already registered? Login</Link>
+              <Link to='/login'>Already registered? Login</Link>
             </form>
           )}
         </Formik>

@@ -14,9 +14,15 @@ import { useMutation } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
@@ -25,7 +31,7 @@ const Login = () => {
       return await $axios.post("/user/login", values);
     },
     onSuccess: (res) => {
-      console.log(res);
+      dispatch(openSuccessSnackbar(res?.data?.message));
       navigate("/home");
       // extract token, role and first name from login response
       const accessToken = res?.data?.accessToken;
@@ -37,14 +43,14 @@ const Login = () => {
       localStorage.setItem("role", role);
     },
     onError: (error) => {
-      console.log(error.response.data.message);
+      dispatch(openErrorSnackbar(error.response.data.message));
+      // console.log(error.response.data.message);
     },
   });
 
   return (
     <>
-      
-      <Box sx={{margin:"15% 36%"}}>
+      <Box sx={{ margin: "15% 36%" }}>
         <Formik
           initialValues={{
             email: "",
@@ -69,11 +75,11 @@ const Login = () => {
                   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                 }}
               >
-      {isPending && <LinearProgress color="secondary" />}
+                {isPending && <LinearProgress color='secondary' />}
 
-                <Typography variant="h4">Sign in</Typography>
+                <Typography variant='h4'>Sign in</Typography>
                 <FormControl>
-                  <TextField label="Email" {...formik.getFieldProps("email")} />
+                  <TextField label='Email' {...formik.getFieldProps("email")} />
                   {formik.touched.email && formik.errors.email ? (
                     <FormHelperText error>{formik.errors.email}</FormHelperText>
                   ) : null}
@@ -81,7 +87,7 @@ const Login = () => {
 
                 <FormControl>
                   <TextField
-                    label="Password"
+                    label='Password'
                     {...formik.getFieldProps("password")}
                   />
                   {formik.touched.password && formik.errors.password ? (
@@ -92,15 +98,15 @@ const Login = () => {
                 </FormControl>
 
                 <Button
-                  variant="contained"
-                  color="secondary"
-                  type="submit"
+                  variant='contained'
+                  color='secondary'
+                  type='submit'
                   disabled={isPending}
                 >
                   Login
                 </Button>
 
-                <Link to="/register">New here? Register</Link>
+                <Link to='/register'>New here? Register</Link>
               </form>
             );
           }}

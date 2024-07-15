@@ -20,8 +20,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { productCategories } from "../constants/general.constants";
 import $axios from "../lib/axios/axios.instance";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
+import { useDispatch } from "react-redux";
+import {
+  openErrorSnackbar,
+  openSuccessSnackbar,
+} from "../store/slices/snackbarSlice";
 
 const EditProduct = () => {
+  const dispatch = useDispatch();
   let productDetail;
   const params = useParams();
 
@@ -39,20 +45,21 @@ const EditProduct = () => {
   productDetail = data?.data?.productDetails;
   // console.log(productDetail);
 
-  
   //?=====update product details on button click======
 
-  const { isPending:editProductPending, mutate } = useMutation({
+  const { isPending: editProductPending, mutate } = useMutation({
     mutationKey: ["edit-product"],
     mutationFn: async (values) => {
       // console.log(values)
       return await $axios.put(`/product/update/${productId}`, values);
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
+      dispatch(openSuccessSnackbar(res?.data?.message));
       navigate(`/product-detail/${productId}`);
     },
     onError: (error) => {
-      console.log(error?.response?.data?.message);
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
+      // console.log(error?.response?.data?.message);
     },
   });
 
@@ -62,10 +69,10 @@ const EditProduct = () => {
 
   return (
     <>
-      <Box sx={{marginTop:"2rem"}}>
-      {editProductPending && <LinearProgress color="success" />}
+      <Box sx={{ marginTop: "2rem" }}>
+        {editProductPending && <LinearProgress color='success' />}
         <Formik
-        enableReinitialize
+          enableReinitialize
           initialValues={{
             image: productDetail?.image || null,
             name: productDetail?.name || "",
@@ -95,11 +102,11 @@ const EditProduct = () => {
                 boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
               }}
             >
-              <Typography variant="h5">Edit Product</Typography>
+              <Typography variant='h5'>Edit Product</Typography>
 
               <FormControl fullWidth>
                 <TextField
-                  label="Name"
+                  label='Name'
                   {...formik.getFieldProps("name")}
                   required
                 />
@@ -110,7 +117,7 @@ const EditProduct = () => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  label="Brand"
+                  label='Brand'
                   {...formik.getFieldProps("brand")}
                   required
                 />
@@ -121,9 +128,9 @@ const EditProduct = () => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  label="Price"
+                  label='Price'
                   {...formik.getFieldProps("price")}
-                  type="number"
+                  type='number'
                   required
                 />
 
@@ -133,9 +140,9 @@ const EditProduct = () => {
               </FormControl>
               <FormControl fullWidth>
                 <TextField
-                  label="Quantity"
+                  label='Quantity'
                   {...formik.getFieldProps("availableQuantity")}
-                  type="number"
+                  type='number'
                   required
                 />
 
@@ -147,22 +154,22 @@ const EditProduct = () => {
                 ) : null}
               </FormControl>
               <FormControl fullWidth>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formik.values.freeShipping}
-                    onChange={(event, value) => {
-                      formik.setFieldValue("freeShipping", value);
-                    }}
-                  />
-                }
-                label="Free Shipping"
-              />
-              {console.log(formik.values)}
-            </FormControl>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formik.values.freeShipping}
+                      onChange={(event, value) => {
+                        formik.setFieldValue("freeShipping", value);
+                      }}
+                    />
+                  }
+                  label='Free Shipping'
+                />
+                {console.log(formik.values)}
+              </FormControl>
               <FormControl fullWidth required>
                 <InputLabel>Category</InputLabel>
-                <Select label="Category" {...formik.getFieldProps("category")}>
+                <Select label='Category' {...formik.getFieldProps("category")}>
                   {productCategories.map((item, index) => {
                     return (
                       <MenuItem key={index} value={item}>
@@ -183,7 +190,7 @@ const EditProduct = () => {
                   required
                   multiline
                   rows={7}
-                  label="Description"
+                  label='Description'
                   {...formik.getFieldProps("description")}
                 />
                 {formik.touched.description && formik.errors.description ? (
@@ -194,9 +201,9 @@ const EditProduct = () => {
               </FormControl>
               <Button
                 fullWidth
-                type="submit"
-                variant="contained"
-                color="success"
+                type='submit'
+                variant='contained'
+                color='success'
                 // onClick={(values)=>{mutate(values)}}
               >
                 Submit
