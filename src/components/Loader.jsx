@@ -4,7 +4,7 @@ import React from "react";
 const Loader = () => {
   return (
     <Box>
-      <img src="/gif/spinner.gif" alt="Loader" />
+      <img src='/gif/spinner.gif' alt='Loader' />
     </Box>
   );
 };

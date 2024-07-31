@@ -10,14 +10,18 @@ import {
   LinearProgress,
   MenuItem,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { productCategories } from "../constants/general.constants";
+import {
+  fallbackImage,
+  productCategories,
+} from "../constants/general.constants";
 import $axios from "../lib/axios/axios.instance";
 import addProductValidationSchema from "../validationSchema/add.product.validation.schema";
 import { useDispatch } from "react-redux";
@@ -25,8 +29,13 @@ import {
   openErrorSnackbar,
   openSuccessSnackbar,
 } from "../store/slices/snackbarSlice";
+import axios from "axios";
+import Loader from "../components/Loader";
 
 const EditProduct = () => {
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState("");
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
   const dispatch = useDispatch();
   let productDetail;
   const params = useParams();
@@ -63,14 +72,13 @@ const EditProduct = () => {
     },
   });
 
-  if (isPending) {
-    return <CircularProgress />;
+  if (isPending || imageUploadLoading || editProductPending) {
+    return <Loader />;
   }
 
   return (
     <>
       <Box sx={{ marginTop: "2rem" }}>
-        {editProductPending && <LinearProgress color='success' />}
         <Formik
           enableReinitialize
           initialValues={{
@@ -84,7 +92,30 @@ const EditProduct = () => {
             description: productDetail.description || "",
           }}
           validationSchema={addProductValidationSchema}
-          onSubmit={(values) => {
+          onSubmit={async (values) => {
+            let imageUrl = null;
+            if (productImage) {
+              const cloudName = "dm7wj9byw";
+              const uploadPreset = "nepal_emart";
+              const data = new FormData();
+              data.append("file", productImage);
+              data.append("cloud_name", cloudName);
+              data.append("upload_preset", uploadPreset);
+              try {
+                setImageUploadLoading(true);
+                const response = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                  data
+                );
+                setImageUploadLoading(false);
+                imageUrl = response?.data?.secure_url;
+              } catch (error) {
+                setImageUploadLoading(false);
+
+                console.log(error.message);
+              }
+            }
+            values.image = imageUrl;
             mutate(values);
           }}
         >
@@ -103,6 +134,22 @@ const EditProduct = () => {
               }}
             >
               <Typography variant='h5'>Edit Product</Typography>
+              <Stack sx={{ height: "250px" }}>
+                <img
+                  src={localUrl || productDetail?.image || fallbackImage}
+                  height='100%'
+                />
+              </Stack>
+              <FormControl>
+                <input
+                  type='file'
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    setProductImage(file);
+                    setLocalUrl(URL.createObjectURL(file));
+                  }}
+                />
+              </FormControl>
 
               <FormControl fullWidth>
                 <TextField
@@ -165,7 +212,7 @@ const EditProduct = () => {
                   }
                   label='Free Shipping'
                 />
-                {console.log(formik.values)}
+                {/* {console.log(formik.values)} */}
               </FormControl>
               <FormControl fullWidth required>
                 <InputLabel>Category</InputLabel>
