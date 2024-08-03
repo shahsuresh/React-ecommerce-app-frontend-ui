@@ -27,7 +27,7 @@ const Login = () => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async (values) => {
-      console.log(values);
+      // console.log(values);
       return await $axios.post("/user/login", values);
     },
     onSuccess: (res) => {
