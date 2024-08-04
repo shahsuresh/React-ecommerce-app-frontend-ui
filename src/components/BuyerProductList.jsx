@@ -20,6 +20,7 @@ import ProductFilterDialog from "./ProductFilterDialog";
 import { useDispatch, useSelector } from "react-redux";
 import { openErrorSnackbar } from "../store/slices/snackbarSlice";
 import { clearFilter } from "../store/slices/productSlice";
+import { debounce } from "lodash";
 
 const BuyerProductList = () => {
   const [searchText, setSearchText] = useState("");
@@ -55,6 +56,21 @@ const BuyerProductList = () => {
 
   const productList = data?.data?.productList;
   const totalPage = data?.data?.totalPage;
+
+  //debouncer for holding api to hit for some time while searching product
+
+  const updateSearchText = (text) => {
+    setSearchText(text);
+    setCurrentPage(1);
+  };
+
+  //===========use of lodash package for debounce==============
+  //==We have delayed this function to wait for user to type complete searched text
+
+  const delayedUpdateSearchText = debounce(updateSearchText, 1000);
+
+  //=============================================================
+
   if (isPending) {
     // return <CircularProgress />;
     return <Loader />;
@@ -78,8 +94,8 @@ const BuyerProductList = () => {
           <OutlinedInput
             defaultValue={searchText || ""}
             onChange={(event) => {
-              setSearchText(event?.target?.value);
-              setCurrentPage(1);
+              delayedUpdateSearchText(event?.target?.value);
+              // setCurrentPage(1);
             }}
             placeholder='Search products here...'
             startAdornment={
