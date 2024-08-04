@@ -34,9 +34,10 @@ const CartItemTable = ({ cartData }) => {
     mutationFn: async () => {
       return await $axios.delete("/cart/clear");
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       //======== re-hit get cart item list api============
       queryClient.invalidateQueries("get-cart-item-list");
+      dispatch(openErrorSnackbar(res?.data?.message));
     },
     onError: (error) => {
       dispatch(openErrorSnackbar(error?.response?.data?.message));

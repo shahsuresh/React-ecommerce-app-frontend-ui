@@ -80,6 +80,7 @@ const BuyerProductList = () => {
       <Stack direction='row' spacing='3' sx={{ marginTop: "1.2rem" }}>
         {isFilterApplied && (
           <Button
+            style={{ marginRight: "5px" }}
             variant='contained'
             color='error'
             onClick={() => {
@@ -92,6 +93,7 @@ const BuyerProductList = () => {
         <ProductFilterDialog />
         <FormControl variant='standard'>
           <OutlinedInput
+            sx={{ marginLeft: "5px" }}
             defaultValue={searchText || ""}
             onChange={(event) => {
               delayedUpdateSearchText(event?.target?.value);
