@@ -13,16 +13,46 @@ const Footer = () => {
         position: "fixed",
         left: 0,
         bottom: 0,
-        
+
         width: "100%",
-        
       }}
-        
-        
     >
-      <Typography variant="h5" sx={{ color: "#fff" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          marginLeft: 0,
+          color: "white",
+        }}
+        gap={2}
+      >
+        <Typography variant='h5'>We Accept</Typography>
+        <img src='Khalti.png' height={"35px"} width={"35px"} />
+        <img src='esewa.png' height={"35px"} width={"35px"} />
+      </Box>
+
+      <Typography variant='h5' sx={{ color: "#fff", marginLeft: "140px" }}>
         © 2020 Copyright: Nepal Electronic Mart
       </Typography>
+      <Box
+        sx={{
+          color: "white",
+          display: "flex",
+          flexDirection: "row",
+          float: "right",
+          marginLeft: "200px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        gap={2}
+      >
+        <Typography variant='h5'>Find Us On:</Typography>
+        <img src='facebook.png' height={"35px"} width={"35px"} />
+        <img src='instagram.png' height={"35px"} width={"35px"} />
+        <img src='twitter.png' height={"35px"} width={"35px"} />
+      </Box>
     </Box>
   );
 };
