@@ -50,7 +50,7 @@ const BuyerProductList = () => {
     },
     onError: (error) => {
       dispatch(openErrorSnackbar(error.response.data.message));
-      console.log(error.res.message);
+      // console.log(error.res.message);
     },
   });
 
