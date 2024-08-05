@@ -29,8 +29,20 @@ const Footer = () => {
         gap={2}
       >
         <Typography variant='h5'>We Accept</Typography>
-        <img src='Khalti.png' height={"35px"} width={"35px"} />
-        <img src='esewa.png' height={"35px"} width={"35px"} />
+        <img src='Khalti.png' height={"45px"} width={"55px"} />
+        <img src='esewa.png' height={"45px"} width={"55px"} />
+        <img
+          src='imepay.png'
+          height={"45px"}
+          width={"55px"}
+          style={{ backgroundColor: "white" }}
+        />
+        <img
+          src='connect-ips.png'
+          height={"45px"}
+          width={"55px"}
+          style={{ backgroundColor: "white" }}
+        />
       </Box>
 
       <Typography variant='h5' sx={{ color: "#fff", marginLeft: "140px" }}>
