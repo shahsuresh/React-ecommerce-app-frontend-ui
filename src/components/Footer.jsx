@@ -46,7 +46,7 @@ const Footer = () => {
       </Box>
 
       <Typography variant='h5' sx={{ color: "#fff", marginLeft: "140px" }}>
-        © 2020 Copyright: Nepal Electronic Mart
+        © 2024 Copyright: Nepal Electronic Mart
       </Typography>
       <Box
         sx={{

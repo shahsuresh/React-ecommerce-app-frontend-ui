@@ -20,7 +20,7 @@ const Home = () => {
     },
     enabled: userRole === "buyer",
     onError: (error) => {
-      console.log(error.res.message);
+      // console.log(error.res.message);
     },
   });
 
