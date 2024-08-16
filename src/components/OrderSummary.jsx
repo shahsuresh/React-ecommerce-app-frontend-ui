@@ -11,11 +11,34 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import axios from "axios";
 import React from "react";
 
 const OrderSummary = ({ orderSummary }) => {
+  const userName = localStorage.getItem("firstName");
+  const handleKhalti = async () => {
+    console.log("khalti payment");
+
+    const payload = {
+      return_url: "http://localhost:5173/payment-success",
+      website_url: "http://localhost:5173/",
+      amount: parseInt(orderSummary.grandTotal) * 100,
+      purchase_order_id: "test12",
+      purchase_order_name: "test",
+      customer_info: {
+        name: userName,
+        email: "example@gmail.com",
+        phone: "9800000123",
+      },
+    };
+    const response = await axios.post("http://localhost:5000/khalti-api");
+    console.log(response);
+    if (response) {
+      window.location.href = `${response?.data?.data?.payment_url}`;
+    }
+  };
   return (
-    <Box sx={{width:"30%"}}>
+    <Box sx={{ width: "30%" }}>
       <TableContainer
         component={Paper}
         sx={{
@@ -24,7 +47,7 @@ const OrderSummary = ({ orderSummary }) => {
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-          <Typography variant="h6">Order Summary</Typography>
+          <Typography variant='h6'>Order Summary</Typography>
         </Toolbar>
         <Table
           sx={{
@@ -61,10 +84,11 @@ const OrderSummary = ({ orderSummary }) => {
           </TableBody>
         </Table>
         <Button
-          variant="contained"
-          color="success"
+          variant='contained'
+          color='success'
           fullWidth
           sx={{ borderRadius: 0 }}
+          onClick={handleKhalti}
         >
           proceed to checkout
         </Button>

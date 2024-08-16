@@ -6,6 +6,7 @@ import Cart from "../pages/Cart";
 import DatePickerForm from "../pages/DatePickerForm";
 import EditProduct from "../pages/EditProduct";
 import Home from "../pages/Home";
+import PaymentSuccess from "../pages/PaymentSuccess";
 import ProductDetail from "../pages/ProductDetail";
 import ProductList from "../pages/ProductList";
 
@@ -49,6 +50,10 @@ const mainRoutes = [
       {
         path: "date-picker",
         element: <DatePickerForm />,
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess />,
       },
     ],
   },
