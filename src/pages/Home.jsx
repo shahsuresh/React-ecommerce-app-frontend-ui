@@ -68,7 +68,7 @@ const Home = () => {
           })}
         </Box>
       )}
-      {userRole === "seller" && (
+      {userRole !== "buyer" && (
         <Typography variant='h4'>
           Buyer can see your latest products here
         </Typography>
@@ -90,7 +90,7 @@ const Home = () => {
           })}
         </Box>
       )}
-      {userRole === "seller" && (
+      {userRole !== "buyer" && (
         <Typography variant='h4'>
           Buyer can see your hot products here
         </Typography>

@@ -14,7 +14,7 @@ const NewArrivalCard = (props) => {
   return (
     <Card
       sx={{
-        width: "400px",
+        width: "350px",
 
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         marginTop: "2rem",
