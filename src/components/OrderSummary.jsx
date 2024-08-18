@@ -11,11 +11,34 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React from "react";
 
-const OrderSummary = ({ orderSummary }) => {
+const OrderSummary = ({ orderSummary, cartData }) => {
   const userName = localStorage.getItem("firstName");
+  //?============function for handling stripe payment===============
+  const makeStripePayment = async () => {
+    console.log("stripe payments");
+    const stripe = await loadStripe(
+      "pk_test_51Pp3VHHFlDC49Jg5QMb4k5olNpgVhbpAPRusBVcn73J6xRJSMDwtTW0Wv2DSWZSxt0mbx7sNkLd9QBOssgKAMphb00aaIBe5W7"
+    );
+    const body = { products: cartData };
+
+    const headers = { "Content-Type": "application/json" };
+    const response = await fetch("http://localhost:5000/stripe-pay", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+    // console.log("Response is", response);
+    const session = await response.json();
+    console.log("SESSION FRONTEND", session);
+    const result = stripe.redirectToCheckout({ sessionId: session.id });
+    console.log("RESULT", result);
+  };
+
+  //?======function for handling khalti payment on button Click=====
   const handleKhalti = async () => {
     console.log("khalti payment");
 
@@ -37,6 +60,7 @@ const OrderSummary = ({ orderSummary }) => {
       window.location.href = `${response?.data?.data?.payment_url}`;
     }
   };
+  //================================================================
   return (
     <Box sx={{ width: "30%" }}>
       <TableContainer
@@ -88,9 +112,9 @@ const OrderSummary = ({ orderSummary }) => {
           color='success'
           fullWidth
           sx={{ borderRadius: 0 }}
-          onClick={handleKhalti}
+          onClick={makeStripePayment}
         >
-          proceed to checkout
+          Pay Rs. {orderSummary?.grandTotal}
         </Button>
       </TableContainer>
     </Box>

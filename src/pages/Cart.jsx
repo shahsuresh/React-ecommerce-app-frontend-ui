@@ -37,7 +37,7 @@ const Cart = () => {
           }}
         >
           <CartItemTable cartData={cartData} />
-          <OrderSummary orderSummary={orderSummary} />
+          <OrderSummary orderSummary={orderSummary} cartData={cartData} />
         </Box>
       )}
     </Box>
