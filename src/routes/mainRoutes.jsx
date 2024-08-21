@@ -6,6 +6,7 @@ import Cart from "../pages/Cart";
 import DatePickerForm from "../pages/DatePickerForm";
 import EditProduct from "../pages/EditProduct";
 import Home from "../pages/Home";
+import Order from "../pages/Order";
 import PaymentErrorPage from "../pages/PaymentErrorPage";
 import PaymentSuccess from "../pages/PaymentSuccess";
 import ProductDetail from "../pages/ProductDetail";
@@ -59,6 +60,10 @@ const mainRoutes = [
       {
         path: "payment-error",
         element: <PaymentErrorPage />,
+      },
+      {
+        path: "order",
+        element: <Order />,
       },
     ],
   },
