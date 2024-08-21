@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 
 const Home = () => {
   const userRole = localStorage.getItem("role");
-  console.log(userRole);
+  // console.log(userRole);
   const { isPending, data } = useQuery({
     queryKey: ["get-new-products"],
     queryFn: async () => {

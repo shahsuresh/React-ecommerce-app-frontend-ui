@@ -19,7 +19,7 @@ const OrderSummary = ({ orderSummary, cartData }) => {
   const userName = localStorage.getItem("firstName");
   //?============function for handling stripe payment===============
   const makeStripePayment = async () => {
-    console.log("stripe payments");
+    // console.log("stripe payments");
     const stripe = await loadStripe(
       "pk_test_51Pp3VHHFlDC49Jg5QMb4k5olNpgVhbpAPRusBVcn73J6xRJSMDwtTW0Wv2DSWZSxt0mbx7sNkLd9QBOssgKAMphb00aaIBe5W7"
     );
@@ -33,9 +33,9 @@ const OrderSummary = ({ orderSummary, cartData }) => {
     });
     // console.log("Response is", response);
     const session = await response.json();
-    // console.log("SESSION FRONTEND", session);
+    console.log("SESSION FRONTEND", session);
     const result = stripe.redirectToCheckout({ sessionId: session.id });
-    console.log("RESULT", result);
+    // console.log("RESULT", result);
   };
 
   //?======function for handling khalti payment on button Click=====

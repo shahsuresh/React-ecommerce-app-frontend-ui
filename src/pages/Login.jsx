@@ -31,15 +31,20 @@ const Login = () => {
       return await $axios.post("/user/login", values);
     },
     onSuccess: (res) => {
+      // console.log("RES LOGIN", res.data.UserDetails);
       dispatch(openSuccessSnackbar(res?.data?.message));
       navigate("/home");
       // extract token, role and first name from login response
       const accessToken = res?.data?.accessToken;
       const firstName = res?.data?.UserDetails?.firstName;
+      const lastName = res?.data?.UserDetails?.lastName;
+      const userId = res?.data?.UserDetails?._id;
       const role = res?.data?.UserDetails?.role;
       // set these values to local storage|
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("firstName", firstName);
+      localStorage.setItem("lastName", lastName);
+      localStorage.setItem("userId", userId);
       localStorage.setItem("role", role);
     },
     onError: (error) => {
