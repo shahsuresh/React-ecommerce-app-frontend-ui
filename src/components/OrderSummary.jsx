@@ -33,7 +33,7 @@ const OrderSummary = ({ orderSummary, cartData }) => {
     });
     // console.log("Response is", response);
     const session = await response.json();
-    console.log("SESSION FRONTEND", session);
+    // console.log("SESSION FRONTEND", session);
     const result = stripe.redirectToCheckout({ sessionId: session.id });
     // console.log("RESULT", result);
   };
