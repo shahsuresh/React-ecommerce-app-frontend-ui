@@ -26,7 +26,7 @@ const OrderSummary = ({ orderSummary, cartData }) => {
     const body = { products: cartData };
 
     const headers = { "Content-Type": "application/json" };
-    const response = await fetch("http://localhost:5000/stripe-pay", {
+    const response = await fetch(import.meta.env.VITE_API_URL_STRIPE, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body),
@@ -54,7 +54,7 @@ const OrderSummary = ({ orderSummary, cartData }) => {
         phone: "9800000123",
       },
     };
-    const response = await axios.post("http://localhost:5000/khalti-api");
+    const response = await axios.post("http://localhost:3000/khalti-api");
     console.log(response);
     if (response) {
       window.location.href = `${response?.data?.data?.payment_url}`;
