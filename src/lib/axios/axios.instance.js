@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios instance
 const $axios = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 5000,
 });
 
