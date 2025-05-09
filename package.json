@@ -19,6 +19,7 @@
     "@stripe/stripe-js": "^4.3.0",
     "@tanstack/react-query": "^5.29.2",
     "axios": "^1.6.8",
+    "caniuse-lite": "^1.0.30001717",
     "dayjs": "^1.11.12",
     "formik": "^2.4.5",
     "install": "^0.13.0",
